@@ -4,7 +4,7 @@
     "keywords": ["laravel", "library", "api-reponse"],
     "type": "library",
     "license": "MIT",
-    "version": "v1.0.0",
+    "version": "v1.1.0",
     "autoload": {
         "psr-4": {
              "Burxon\\ApiResponseDTO\\": "src/"
