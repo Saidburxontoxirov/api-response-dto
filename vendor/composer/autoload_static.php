@@ -11,6 +11,15 @@ class ComposerStaticInit33ee235c212b2a671d9af4868cd612c9
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Container\\' => 14,
+        ),
+        'I' => 
+        array (
+            'Illuminate\\Contracts\\' => 21,
+        ),
         'B' => 
         array (
             'Burxon\\ApiResponseDTO\\' => 22,
@@ -18,6 +27,18 @@ class ComposerStaticInit33ee235c212b2a671d9af4868cd612c9
     );
 
     public static $prefixDirsPsr4 = array (
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Illuminate\\Contracts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/illuminate/contracts',
+        ),
         'Burxon\\ApiResponseDTO\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

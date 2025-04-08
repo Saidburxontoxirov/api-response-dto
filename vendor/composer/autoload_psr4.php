@@ -6,5 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
+    'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
+    'Illuminate\\Contracts\\' => array($vendorDir . '/illuminate/contracts'),
     'Burxon\\ApiResponseDTO\\' => array($baseDir . '/src'),
 );
