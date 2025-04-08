@@ -3,7 +3,7 @@
 namespace Burxon\ApiResponseDTO;
 
 
-class UniversalApiREsponseDTO extends ApiResponseDTO
+class UniversalApiResponseDTO extends ApiResponseDTO
 {
     public function __construct(
         public readonly mixed $result,
