@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs;
+namespace Burxon\ApiResponseDTO;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;

@@ -2,7 +2,7 @@
 
 namespace Burxon\ApiResponseDTO;
 
-use App\DTOs\UniversalApiREsponseDTO;
+use Burxon\ApiResponseDTO\UniversalApiREsponseDTO;
 
 if (!function_exists('Burxon\\ApiResponseDTO\\apiResponseDTO')) {
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs;
+namespace Burxon\ApiResponseDTO;
 
 
 class UniversalApiREsponseDTO extends ApiResponseDTO
