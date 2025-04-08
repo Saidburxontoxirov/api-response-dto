@@ -2,6 +2,8 @@
 
 namespace Burxon\ApiResponseDTO;
 
+use App\DTOs\UniversalApiREsponseDTO;
+
 if (!function_exists('Burxon\\ApiResponseDTO\\apiResponseDTO')) {
     /**
      * Create an ApiResponseDTO instance.
@@ -9,10 +11,10 @@ if (!function_exists('Burxon\\ApiResponseDTO\\apiResponseDTO')) {
      * @param mixed $result The response data
      * @param int $status HTTP status code
      * @param string $message Optional message
-     * @return ApiResponseDTO
+     * @return UniversalApiREsponseDTO
      */
-    function apiResponseDTO(mixed $result = [], int $status = 200, string $message = ""): ApiResponseDTO
+    function apiResponseDTO(mixed $result = [], int $status = 200, string $message = "", $success = true,  $addCustomColumns = []): UniversalApiREsponseDTO
     {
-        return new ApiResponseDTO($result, $status, $message);
+        return new UniversalApiREsponseDTO($result, $status, $message, $success,  $addCustomColumns);
     }
 }

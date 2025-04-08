@@ -1,44 +1,82 @@
 <?php
 
-namespace Burxon\ApiResponseDTO;
+namespace App\DTOs;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
 
-class ApiResponseDTO implements Arrayable, JsonSerializable
+abstract class ApiResponseDTO implements Arrayable, JsonSerializable
 {
     public function __construct(
-        public readonly mixed $result = [],
+        public readonly mixed $result,
+        public readonly string $message = "",
         public readonly int $status = 200,
-        public readonly ?string $message = null
+        public readonly bool $success = true,
+        public readonly array $addCustomColumns = []
     ) {
-        if ($status < 100 || $status > 599) {
-            throw new \InvalidArgumentException("Invalid HTTP status code: $status. Must be between 100 and 599.");
-        }
+        $this->validateCollections($addCustomColumns);
+    }
 
-        if (!is_array($result) && !is_object($result) && $result !== null) {
-            throw new \InvalidArgumentException("Result must be an array, object, or null.");
+    /**
+     * Abstract method for customizing columns.
+     * Child classes must implement this method to define the columns.
+     * ['users' => $this->users, 'model' => User::class],
+     * ['posts' => $this->posts, 'model' => Post::class]
+     */
+
+    protected function validateCollections($addCustomColumns)
+    {
+        foreach ($addCustomColumns  as $key => $row) {
+            if (isset($row['model']) && is_string($row['model'])) {
+                $modelName = $row['model'];
+                $collection = $row[array_key_first($row)]; // Gets User::all() or Post::all()
+                $modelName = $row['model']; // full class name
+                $baseModelName = strtolower(class_basename($modelName));
+                foreach ($collection as $record) {
+                    // Process each user or post
+                    if (!$record instanceof $modelName) {
+                        throw new HttpResponseException(response()->json(["message" => "Invalid {$baseModelName} parameter"], 400));
+                    }
+                }
+            }
         }
     }
 
-    public static function make(mixed $result = [], int $status = 200, string $message = ""): self
+    public function flattenCustomColumns(): array
     {
-        return new self($result, $status, $message);
+        return collect($this->addCustomColumns)
+            ->mapWithKeys(function ($item, $key) {
+                $result = [];
+                foreach ($item as $collectionName => $value) {
+                    if ($collectionName == 'model') {
+                        continue;
+                    }
+                    if (($result[$collectionName] ?? null) != 'model') {
+                        $result[$collectionName] = $value;
+                    }
+                }
+                return $result;
+            })->all();
     }
 
     public function toArray(): array
     {
-        return [
-            'status' => $this->status,
-            'data' => $this->normalizeData($this->result),
-            'message' => $this->message,
-        ];
-    }
+        return array_merge(
+            [
+                'status' => $this->status,
+                'data' => $this->formatData($this->result),
+                'message' => $this->message,
+                'error' => $this->success
+            ],
+            $this->flattenCustomColumns()
 
+        );
+    }
 
     public function jsonSerialize(): array
     {
@@ -50,12 +88,12 @@ class ApiResponseDTO implements Arrayable, JsonSerializable
         return json_encode($this->toArray());
     }
 
-    protected function normalizeData(mixed $result): mixed
+    protected function formatData(mixed $result): mixed
     {
         if ($result instanceof LengthAwarePaginator || $result instanceof Paginator) {
             return [
                 'result' => $result->items(),
-                'pagination' => [
+                'meta' => [
                     'total' => method_exists($result, 'total') ? $result->total() - 1 : null,
                     'per_page' => $result->perPage(),
                     'current_page' => $result->currentPage(),
@@ -78,20 +116,5 @@ class ApiResponseDTO implements Arrayable, JsonSerializable
         }
 
         return ['result' => $result]; // Arrays, scalars, etc.
-    }
-
-    public function getData(): mixed
-    {
-        return $this->normalizeData($this->result);
-    }
-
-    public function getStatus(): int
-    {
-        return $this->status;
-    }
-
-    public function getMessage(): string
-    {
-        return $this->message ?? '';
     }
 }
