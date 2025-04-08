@@ -13,11 +13,11 @@ use JsonSerializable;
 abstract class ApiResponseDTO implements Arrayable, JsonSerializable
 {
     public function __construct(
-        public readonly mixed $result,
-        public readonly string $message = "",
-        public readonly int $status = 200,
-        public readonly bool $success = true,
-        public readonly array $addCustomColumns = []
+        public mixed $result,
+        public string $message = "",
+        public int $status = 200,
+        public bool $success = true,
+        public array $addCustomColumns = []
     ) {
         $this->validateCollections($addCustomColumns);
     }
