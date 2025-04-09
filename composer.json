@@ -25,7 +25,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Burxon\\ApiResponseDTO\\ApiResponseDtoServiceProvider"
+                "Burxon\\ApiResponseDTO\\ApiResponseDTOServiceProvider"
             ]
         }
     },
