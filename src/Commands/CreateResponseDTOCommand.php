@@ -2,6 +2,7 @@
 
 namespace Burxon\ApiResponseDTO\Commands;
 
+
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -36,8 +37,16 @@ class CreateResponseDTOCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
+        $baseDtoNamespace = 'Burxon\ApiResponseDTO';
+
         return $this->replaceNamespace($stub, $name)
+            ->replaceBaseDtoNamespace($stub, $baseDtoNamespace)
             ->replaceClass($stub, $name);
+    }
+
+    protected function replaceBaseDtoNamespace($stub, $baseDtoNamespace)
+    {
+        return str_replace('{{ base_dto_namespace }}', $baseDtoNamespace, $stub);
     }
 
     protected function getOptions()

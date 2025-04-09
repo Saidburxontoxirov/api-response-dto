@@ -11,8 +11,7 @@ class ApiResponseDTOServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CreateResponseDTOCommand::class,
-                // ... other commands
+                CreateResponseDTOCommand::class
             ]);
         }
     }
