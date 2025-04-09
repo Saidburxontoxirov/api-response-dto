@@ -18,7 +18,7 @@ class CreateResponseDTOCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return __DIR__ . '/stubs/api-response-dto.stub';
+        return __DIR__ . './stubs/api-response-dto.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace)
@@ -37,17 +37,15 @@ class CreateResponseDTOCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $baseDtoNamespace = 'Burxon\ApiResponseDTO';
+        $baseDtoClass = 'Burxon\ApiResponseDTO\ApiResponseDTO';
 
-        return $this->replaceNamespace($stub, $name)
-            ->replaceBaseDtoNamespace($stub, $baseDtoNamespace)
+        $stub = $this->replaceNamespace($stub, $name)
+            ->replace('{{ base_dto_class }}', $baseDtoClass)
             ->replaceClass($stub, $name);
+
+        return $stub;
     }
 
-    protected function replaceBaseDtoNamespace($stub, $baseDtoNamespace)
-    {
-        return str_replace('{{ base_dto_namespace }}', $baseDtoNamespace, $stub);
-    }
 
     protected function getOptions()
     {

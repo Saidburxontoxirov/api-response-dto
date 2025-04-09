@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use {{ base_dto_namespace }}\ApiResponseDTO;
+use {{ base_dto_class }};
 // use Illuminate\Database\Eloquent\Collection;
 
 class {{ class }} extends ApiResponseDTO
