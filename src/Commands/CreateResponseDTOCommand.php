@@ -2,30 +2,50 @@
 
 namespace Burxon\ApiResponseDTO\Commands;
 
-
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
-
 
 class CreateResponseDTOCommand extends GeneratorCommand
 {
+    protected $files;
 
+    public function __construct(Filesystem $files)
+    {
+        $this->files = $files;
+        parent::__construct($files);
+    }
     protected $type = 'ApiResponseDTO';
 
     protected $name = 'make:api-response-dto';
 
     protected $description = 'Create a new Response API DTO class extending ApiResponseDTO';
 
+    /**
+     * Get the stub file for the generator.
+     */
     protected function getStub()
     {
-        return __DIR__ . './stubs/api-response-dto.stub';
+        $stubPath = __DIR__ . '/stubs/api-response-dto.stub';
+
+        if (!file_exists($stubPath)) {
+            throw new \Exception("Stub file not found at path: {$stubPath}");
+        }
+
+        return $stubPath;
     }
 
+    /**
+     * Get the default namespace for the class.
+     */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\DTOs';
+        return $rootNamespace . '\\DTOs';
     }
 
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
         parent::handle();
@@ -33,37 +53,38 @@ class CreateResponseDTOCommand extends GeneratorCommand
         $this->info('Response API DTO created successfully!');
     }
 
+    /**
+     * Build the class with the given name.
+     */
+
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
 
-        $baseDtoClass = 'Burxon\ApiResponseDTO\ApiResponseDTO';
-
-        $stub = $this->replaceNamespace($stub, $name)
-            ->replace('{{ base_dto_class }}', $baseDtoClass)
+        return $this->replaceNamespace($stub, $name)
             ->replaceClass($stub, $name);
-
-        return $stub;
     }
 
-
+    /**
+     * Get the console command options.
+     */
     protected function getOptions()
     {
         return [
-            ['force', 'f', InputOption::VALUE_NONE, 'Create the Api Response DTO class'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Create the API Response DTO class even if it already exists'],
         ];
     }
 
+    /**
+     * Prompt for missing arguments.
+     */
     protected function promptForMissingArgumentsUsing()
     {
         return [
             'name' => [
-                'What should the '.($this->type).' be named?',
-                match ($this->type) {
-                    default => '',
-                },
+                'What should the ' . $this->type . ' be named?',
+                '',
             ],
         ];
     }
-
 }

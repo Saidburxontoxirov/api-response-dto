@@ -2,32 +2,17 @@
 
 namespace {{ namespace }};
 
-use {{ base_dto_class }};
-// use Illuminate\Database\Eloquent\Collection;
+use Burxon\ApiResponseDTO\ApiResponseDTO;
 
 class {{ class }} extends ApiResponseDTO
 {
     public function __construct(
-         /*  public float $float,
-            public array $array,
-            public bool $bool,
-            public Collection $users,
-        */
-        public  mixed $result,
-        public  string $message = "",
-        public  int $status = 200,
-        public  bool $success = true,
-
+        public mixed $result,
+        public string $message = "",
+        public int $status = 200,
+        public bool $success = true
     ) {
         $addCustomColumns = [];
-         /* $addCustomColumns = [
-            ['id' => $id],
-            ['name' => $name],
-            ['users' => $users, 'model' => User::class],
-            ['float' => $float],
-            ['array' => $array],
-            ['bool' => $bool]
-        ]; */
         parent::__construct($result, $message, $status, $success, $addCustomColumns);
     }
 }
