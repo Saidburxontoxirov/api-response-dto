@@ -71,7 +71,7 @@ abstract class ApiResponseDTO implements Arrayable, JsonSerializable
                 'status' => $this->status,
                 'data' => $this->formatData($this->result),
                 'message' => $this->message,
-                'error' => $this->success
+                'success' => $this->success
             ],
             $this->flattenCustomColumns()
 
