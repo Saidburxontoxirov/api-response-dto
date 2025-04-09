@@ -11,10 +11,10 @@ if (!function_exists('Burxon\\ApiResponseDTO\\apiResponseDTO')) {
      * @param mixed $result The response data
      * @param int $status HTTP status code
      * @param string $message Optional message
-     * @return UniversalApiREsponseDTO
+     * @return UniversalApiResponseDTO
      */
-    function apiResponseDTO(mixed $result = [], int $status = 200, string $message = "", $success = true,  $addCustomColumns = []): UniversalApiREsponseDTO
+    function apiResponseDTO(mixed $result = [], int $status = 200, string $message = "", $success = true,  $addCustomColumns = []): UniversalApiResponseDTO
     {
-        return new UniversalApiREsponseDTO($result, $status, $message, $success,  $addCustomColumns);
+        return new UniversalApiResponseDTO($result, $status, $message, $success,  $addCustomColumns);
     }
 }
