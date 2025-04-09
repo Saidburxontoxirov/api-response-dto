@@ -21,9 +21,6 @@ class CreateResponseDTOCommand extends GeneratorCommand
 
     protected $description = 'Create a new Response API DTO class extending ApiResponseDTO';
 
-    /**
-     * Get the stub file for the generator.
-     */
     protected function getStub()
     {
         $stubPath = __DIR__ . '/stubs/api-response-dto.stub';
