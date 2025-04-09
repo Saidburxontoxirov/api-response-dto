@@ -2,7 +2,8 @@
 
 namespace {{ namespace }};
 
-use Burxon\ApiResponseDTO;
+use Burxon\ApiResponseDTO\ApiResponseDTO;
+
 // use Illuminate\Database\Eloquent\Collection;
 
 class {{ class }} extends ApiResponseDTO
